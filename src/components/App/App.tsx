@@ -16,19 +16,19 @@ const App = () => {
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
   const handleSearch = async (query: string) => {
+    setError(false); //added setError(false) so the state error resets before a new request
+    setMovies([]); // resets before a new search
     try {
       setLoading(true);
       const data = await fetchMovies(query);
-
       if (data.length === 0) {
         toast.error("No movies found for your request.");
       }
-      setLoading(false);
       setMovies(data);
     } catch {
       setError(true);
     } finally {
-      setLoading(false);
+      setLoading(false); // removed setLoading from try since in finally, it will work in any case
     }
   };
   const openModalSelect = (movie: Movie) => {
